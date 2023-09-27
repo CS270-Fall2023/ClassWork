@@ -51,17 +51,14 @@ int main(int argc, char *argv[]){
     //copy lines from buffer in reverce order
     for (int i = count-1; i >0; i--){
         int lenght=newlines[i]-newlines[i-1];
-        lines[index]=malloc((lenght+1)*sizeof(char));
-        strncpy(lines[index], buffer + newlines[i-1]+1, lenght);
-        lines[index][lenght]='\0';
-        index++;
+        char temp[100];
+        printf("%.*s", lenght, buffer+newlines[i-1]+1);
+        // lines[index]=malloc((lenght+1)*sizeof(char));
+        // strncpy(lines[index], buffer + newlines[i-1]+1, lenght);
+        // lines[index][lenght]='\0';
+        // index++;
     }
     //print lines
-    printf("\nprinting lines from lines...\n");
-    for (int i =0; i<count;i++){
-        printf("%s",lines[i]);
-    }
-    printf("\n\n");
 
 
 
