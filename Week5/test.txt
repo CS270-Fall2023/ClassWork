@@ -25,4 +25,3 @@
     25	uuidd:x:106:112::/run/uuidd:/usr/sbin/nologin
     26	tcpdump:x:107:113::/nonexistent:/usr/sbin/nologin
     27	ekaterina:x:1000:1000:,,,:/home/ekaterina:/bin/bash
-    28	test:x:1001:1001::/home/test:/bin/sh
