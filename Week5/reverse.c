@@ -4,6 +4,7 @@
 #include <fcntl.h>//open
 #include <stdlib.h> //exit
 #include <unistd.h> //close//read
+#include <string.h>
 
 #define BUF_SIZE 4096
 #define MAX_NUM_LINES 200
@@ -35,7 +36,7 @@ int main(int argc, char *argv[]){
     int newlines[MAX_NUM_LINES];
     int index=1,
         count = 1;
-    newline[0]=0;
+    newlines[0]=-1;//was 0
     for (int i =0; i <bytesRead; i++){
         if (buffer[i]=='\n'){
             newlines[index] = i;
@@ -43,16 +44,24 @@ int main(int argc, char *argv[]){
             count++;
         }
     }
+    //newlines[-1, 6, 13, 20, 28]
 
     char ** lines = malloc(count * sizeof(char *));
     index=0;
+    //copy lines from buffer in reverce order
     for (int i = count-1; i >0; i--){
         int lenght=newlines[i]-newlines[i-1];
-        line[index]=malloc((lenght+1)*sizeof(char));
-        strncpy(line[index], buffer + newlines[i-1]+1, lenght);
-        line[index][lenght]='\0';
+        lines[index]=malloc((lenght+1)*sizeof(char));
+        strncpy(lines[index], buffer + newlines[i-1]+1, lenght);
+        lines[index][lenght]='\0';
         index++;
     }
+    //print lines
+    printf("\nprinting lines from lines...\n");
+    for (int i =0; i<count;i++){
+        printf("%s",lines[i]);
+    }
+    printf("\n\n");
 
 
 
