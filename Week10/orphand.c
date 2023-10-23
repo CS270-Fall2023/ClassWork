@@ -15,7 +15,7 @@ int main()
     }
     else if (pid == 0) // child process
     {
-        // sleep(5); // Make sure that the parent terminates first
+        sleep(5); // Make sure that the parent terminates first
         printf("Child process with PID %d and PPID %d.\n", getpid(), getppid());
     }
     printf("PID %d terminates.\n", getpid()); // both process with execute this
