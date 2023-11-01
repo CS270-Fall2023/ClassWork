@@ -1,0 +1,13 @@
+#!/bin/bash
+read -p "Enter the first number " num1
+read -p "Enter the second number " num2
+
+#if (( $num1 == $num2 )); then
+if [[ $num1 -eq $num2 ]]; then
+#if [ $num1 -eq $num2 ]; then
+    echo numbers are the same
+elif [ $num1 -gt $num2 ]; then
+    echo the first number is grater than the second
+else
+    echo the first number is less than the second
+fi

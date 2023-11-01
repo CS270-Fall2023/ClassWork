@@ -1,0 +1,6 @@
+#!/bin/bash
+name=Ekaterina
+echo ${name:1:1} #${var:offset:lenght}
+echo -n "last character is "
+lenth=${#name}
+echo ${name:lenth-1:1}
