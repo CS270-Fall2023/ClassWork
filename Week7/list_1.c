@@ -6,6 +6,10 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
+#include <sys/sysmacros.h>
+#include <pwd.h>
+#include <grp.h> 
+#include <time.h>
 
 #include <pwd.h>
 #include <grp.h>
@@ -64,6 +68,23 @@ void showStatInfo(const char *fname, struct stat *buf)
 {
     if (fname[0] == '.')//don't display infor for hiden files
         return;
+    char strMode[11];
+    
+    //printf("   mode: %o\n", buf->st_mode);
+    modeToLetters(buf->st_mode, strMode);
+    //printf("   mode: %s\n", strMode);
+    printf("%-12s", strMode);
+    //printf("  links: %ld\n", buf->st_nlink);
+    printf("%-3ld", buf->st_nlink);
+    //printf("   user: %d\n", buf->st_uid);
+    //printf("   user: %s\n", uidToName(buf->st_uid));
+    printf("%-12s", uidToName(buf->st_uid));
+    
+    //printf("  group: %d\n", buf->st_gid);
+    //printf("  group: %s\n", gidToName(buf->st_gid));
+    printf("%-12s", gidToName(buf->st_gid));
+    //printf("   size: %ld\n", buf->st_size);
+    printf("%6ld", buf->st_size);
 
     printf("   name: %s\n", fname);
     char strMode[11];
