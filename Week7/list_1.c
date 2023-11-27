@@ -7,10 +7,18 @@
 #include <unistd.h>
 #include <string.h>
 
+#include <pwd.h>
+#include <grp.h>
+#include <time.h>
+
 #define MAXPATH 512
 
 void list(const char *dirName);
 void showStatInfo(const char *fname, struct stat *buf);
+void modeToLetters(int mode, char str[]);
+
+char* uidToName(uid_t id);
+char* gidToName(gid_t id);
 
 int main(int argc, char * argv[]){
     if (argc ==1){
@@ -58,10 +66,50 @@ void showStatInfo(const char *fname, struct stat *buf)
         return;
 
     printf("   name: %s\n", fname);
-    printf("   mode: %o\n", buf->st_mode);
+    char strMode[11];
+    modeToLetters(buf->st_mode, strMode);
+    //printf("   mode: %o\n", buf->st_mode);
+    printf("   mode: %s\n", strMode);
+
     printf("  links: %ld\n", buf->st_nlink);
-    printf("   user: %d\n", buf->st_uid);
-    printf("  group: %d\n", buf->st_gid);
+    //printf("   user: %d\n", buf->st_uid);
+    printf("   user: %s\n", uidToName(buf->st_uid));
+    //printf("  group: %d\n", buf->st_gid);
+    printf("  group: %s\n", gidToName(buf->st_gid));
     printf("   size: %ld\n", buf->st_size);
-    printf("modtime: %ld\n\n", buf->st_mtime);
+    //printf("modtime: %ld\n\n", buf->st_mtime);
+    printf("modtime: %.12s\n\n", 4+ctime(&buf->st_mtime));
+}
+
+void modeToLetters(int mode, char str[])
+{
+    strcpy(str, "----------");
+    if (S_ISDIR(mode)) str[0] = 'd';  // directory
+    if (S_ISCHR(mode)) str[0] = 'c';  // char device
+    if (S_ISBLK(mode)) str[0] = 'b';  // block device
+
+    // 3 bits for user
+    if (mode & S_IRUSR) str[1] = 'r';
+    if (mode & S_IWUSR) str[2] = 'w';
+    if (mode & S_IXUSR) str[3] = 'x';
+
+    // 3 bits for group
+    if (mode & S_IRGRP) str[4] = 'r';
+    if (mode & S_IWGRP) str[5] = 'w';
+    if (mode & S_IXGRP) str[6] = 'x';
+
+    // 3 bits for other
+    if (mode & S_IROTH) str[7] = 'r';
+    if (mode & S_IWOTH) str[8] = 'w';
+    if (mode & S_IXOTH) str[9] = 'x';
+}
+
+char* uidToName(uid_t id)
+{
+    return getpwuid(id)->pw_name;
+}
+
+char* gidToName(gid_t id)
+{
+    return getgrgid(id)->gr_name;
 }
